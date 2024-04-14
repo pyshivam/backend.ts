@@ -3,6 +3,7 @@ import AppError from '@core/utils/appError';
 import logger from '@core/utils/logger';
 import { UserModel } from '@components/user/user.model';
 import { IUser } from '@components/user/user.interface';
+import { createHash } from '@core/utils/hashing';
 
 const create = async (user: IUser): Promise<boolean> => {
   try {
@@ -16,11 +17,16 @@ const create = async (user: IUser): Promise<boolean> => {
       throw new AppError(httpStatus.BAD_REQUEST, 'Username already exists!');
     }
 
-    const newUser = await UserModel.create(user);
+    const password = await createHash(user.password);
+
+    const newUser = await UserModel.create({ ...user, password });
     logger.debug(`User created: %O`, newUser);
     return true;
   } catch (err) {
     logger.error(`User create err: %O`, err.message);
+    if (err instanceof AppError) {
+      throw err;
+    }
     throw new AppError(httpStatus.BAD_REQUEST, 'User was not created!');
   }
 };
@@ -42,6 +48,9 @@ const update = async (user: IUser): Promise<boolean> => {
     return true;
   } catch (err) {
     logger.error(`User update err: %O`, err.message);
+    if (err instanceof AppError) {
+      throw err;
+    }
     throw new AppError(httpStatus.BAD_REQUEST, 'User was not updated!');
   }
 };
