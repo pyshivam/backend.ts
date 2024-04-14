@@ -9,6 +9,8 @@ import uniqueReqId from '@core/middlewares/uniqueReqId.middleware';
 import http404 from '@components/404/404.router';
 import swaggerApiDocs from '@components/swagger-ui/swagger.router';
 import db from '@db';
+import compression from 'compression';
+import helmet from 'helmet';
 
 db.connect();
 
@@ -19,6 +21,8 @@ app.use(httpLogger.successHandler);
 app.use(httpLogger.errorHandler);
 app.use(uniqueReqId);
 app.use(express.json());
+app.use(helmet());
+app.use(compression());
 app.use(consts.API_ROOT_PATH, api);
 app.use(swaggerApiDocs);
 app.use(http404);
