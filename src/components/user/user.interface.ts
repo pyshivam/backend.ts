@@ -7,3 +7,9 @@ export interface IUser {
   phone: string;
   username: string;
 }
+
+export interface IUserJWT {
+  _id: string;
+  email: string;
+  username: string;
+}

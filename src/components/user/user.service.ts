@@ -7,6 +7,8 @@ import { createHash } from '@core/utils/hashing';
 
 const create = async (user: IUser): Promise<boolean> => {
   try {
+    // TODO: here we can improve this by using a single query to check if the user exists
+
     const doc = await UserModel.findOne({ email: user.email });
     if (doc) {
       throw new AppError(httpStatus.BAD_REQUEST, 'User already exists!');

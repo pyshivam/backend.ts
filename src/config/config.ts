@@ -21,6 +21,8 @@ const envsSchema = Joi.object()
     API_KEY_TOKEN: Joi.string().required(),
     MONGODB_URL: Joi.string().required(),
     MONGODB_DB_NAME: Joi.string().required(),
+    JWT_SECRET_KEY: Joi.string().required(),
+    REFRESH_TOKEN_SECRET_KEY: Joi.string().required(),
   })
   .unknown(true);
 
@@ -45,4 +47,6 @@ export default {
   projectVersion: packageData.version,
   mongoUrl: envVars.MONGODB_URL,
   mongoDbName: envVars.MONGODB_DB_NAME,
+  jwtSecretKey: envVars.JWT_SECRET_KEY,
+  refreshTokenSecretKey: envVars.REFRESH_TOKEN_SECRET_KEY,
 };
