@@ -1,7 +1,7 @@
 import Joi from 'joi';
 import { ValidationSchema } from '@core/interfaces/validationSchema';
 
-const createUserValidation: ValidationSchema = {
+export const createUserValidation: ValidationSchema = {
   body: Joi.object().keys({
     name: Joi.string().required(),
     email: Joi.string().email(),
@@ -12,5 +12,14 @@ const createUserValidation: ValidationSchema = {
     username: Joi.string().alphanum().required(),
   }),
 };
-
-export default createUserValidation;
+export const updateUserValidation: ValidationSchema = {
+  body: Joi.object().keys({
+    name: Joi.string(),
+    email: Joi.string().email(),
+    password: Joi.string(),
+    confirmPassword: Joi.string().valid(Joi.ref('password')),
+    country: Joi.string(),
+    phone: Joi.string(),
+    username: Joi.string().alphanum().required(),
+  }),
+};

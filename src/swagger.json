@@ -58,6 +58,49 @@
           }
         }
       },
+      "put": {
+        "tags": ["Update user"],
+        "description": "Update user",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "default": "JWT Token",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Input",
+            "in": "body",
+            "description": "Input data required to Update new user",
+            "schema": {
+              "$ref": "#/definitions/UserInput"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User has been updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/ResponseWithMessage"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access forbidden.",
+            "error": {}
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "message": {}
+          }
+        }
+      },
       "post": {
         "tags": ["create user"],
         "description": "Create user",

@@ -8,14 +8,14 @@ import {
   updateUser,
   deleteUser,
 } from './user.controller';
-import createUserValidation from './createUser.validation';
+import { createUserValidation, updateUserValidation } from './user.validations';
 
 const router: Router = Router();
 
 // e.g. createUser request's body is validated and protected by api-key
 router.post('/user/', [validation(createUserValidation)], createUser);
 router.get('/user/', [checkAuth], readUser);
-router.put('/user/', [checkAuth], updateUser);
+router.put('/user/', [validation(updateUserValidation), checkAuth], updateUser);
 router.delete('/user/', [checkAuth], deleteUser);
 
 export default router;

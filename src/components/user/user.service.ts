@@ -1,3 +1,5 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-param-reassign */
 import httpStatus from 'http-status';
 import AppError from '@core/utils/appError';
 import logger from '@core/utils/logger';
@@ -43,15 +45,22 @@ const read = async (id: string): Promise<IUser> => {
   return user as IUser;
 };
 
-const update = async (user: IUser): Promise<boolean> => {
+const update = async (user: IUser) => {
   try {
+    const { username } = user;
+    delete user.username;
+    if (user.password) {
+      user.password = await createHash(user.password);
+    }
     const updatedUser = await UserModel.findOneAndUpdate(
-      { email: user.email },
-      { name: user.name },
+      { username },
+      { ...user },
       { new: true },
     );
     logger.debug(`User updated: %O`, updatedUser);
-    return true;
+    updatedUser.password = undefined;
+    updatedUser.__v = undefined;
+    return updatedUser;
   } catch (err) {
     logger.error(`User update err: %O`, err.message);
     if (err instanceof AppError) {

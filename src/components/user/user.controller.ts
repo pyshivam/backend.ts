@@ -40,9 +40,19 @@ const readUser = async (req: IRequest, res: Response) => {
 
 const updateUser = async (req: IRequest, res: Response) => {
   const user = req.body as IUser;
-  await update(user);
-  res.status(httpStatus.OK);
-  res.send({ message: 'Updated' });
+  try {
+    const updatedUser = await update(user);
+    res.status(httpStatus.OK);
+    res.send({ message: 'Updated', user: updatedUser.toObject() });
+  } catch (error) {
+    if (error instanceof AppError) {
+      res.status(error.httpCode || httpStatus.BAD_REQUEST);
+      res.send({ message: error.message });
+    } else {
+      res.status(httpStatus.BAD_REQUEST);
+      res.send({ message: error.message });
+    }
+  }
 };
 
 const deleteUser = async (req: IRequest, res: Response) => {
