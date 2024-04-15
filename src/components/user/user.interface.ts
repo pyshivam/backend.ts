@@ -9,7 +9,6 @@ export interface IUser {
 }
 
 export interface IUserJWT {
-  _id: string;
-  email: string;
+  id: string;
   username: string;
 }

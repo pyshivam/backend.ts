@@ -4,6 +4,7 @@ import logger from '@core/utils/logger';
 import { UserModel } from '@components/user/user.model';
 import { comparePassword } from '@core/utils/authHelper';
 import { signAccessToken, signRefreshToken } from '@core/utils/jwtTokenHelper';
+import { IUserJWT } from '@components/user/user.interface';
 import { ILoginBody } from './auth.interface';
 
 const login = async (body: ILoginBody) => {
@@ -12,8 +13,10 @@ const login = async (body: ILoginBody) => {
     if (user) {
       const isMatch = await comparePassword(body.password, user.password);
       if (isMatch) {
-        const accessToken = signAccessToken({ ...user });
-        const refreshToken = signRefreshToken({ ...user });
+        // eslint-disable-next-line no-underscore-dangle
+        const u = { username: user.username, id: user._id } as IUserJWT;
+        const accessToken = signAccessToken(u);
+        const refreshToken = signRefreshToken(u);
         user.password = undefined;
         return { tokens: { accessToken, refreshToken }, user };
       }
