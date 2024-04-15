@@ -15,7 +15,7 @@ const router: Router = Router();
 // e.g. createUser request's body is validated and protected by api-key
 router.post('/user/', [validation(createUserValidation)], createUser);
 router.get('/user/', [checkAuth], readUser);
-router.put('/user/:id', [checkAuth], updateUser);
-router.delete('/user/:id', [checkAuth], deleteUser);
+router.put('/user/', [checkAuth], updateUser);
+router.delete('/user/', [checkAuth], deleteUser);
 
 export default router;
