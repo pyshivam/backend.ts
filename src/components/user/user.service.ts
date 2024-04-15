@@ -36,6 +36,10 @@ const create = async (user: IUser): Promise<boolean> => {
 const read = async (id: string): Promise<IUser> => {
   logger.debug(`Sent user.id ${id}`);
   const user = await UserModel.findOne({ _id: id });
+  if (!user) {
+    throw new AppError(httpStatus.NOT_FOUND, 'User not found!');
+  }
+  user.password = undefined;
   return user as IUser;
 };
 
