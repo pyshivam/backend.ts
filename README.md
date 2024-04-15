@@ -14,13 +14,6 @@ Inside of this repoistory you will find fully configured and ready to use **expr
 - 🚧 Jest for unit testing
 - 🏄 And many more...
 
-### Additional features:
-
-The `master` branch contains the core version of NET.ts. However, if you need additional module (such as mongoDB for instacne), you can switch to any of the following dedicated branches. Keep in mind that the feature branches are regularly updated with changes made to the core version on the `master` branch.
-
-- 🌐 Mongo database - [See version with MongoDB](https://github.com/przemek-nowicki/node-express-template.ts/tree/add_mongo)
-- 🔒 mTLS - [See version with mTLS](https://github.com/przemek-nowicki/node-express-template.ts/tree/add_mTLS)
-
 ## Getting started, standard way (no containerization)
 
 If you want to run NET.ts "standard way" using the `npm` instead of `docker-compose`.
@@ -71,24 +64,12 @@ Run code quality analysis using
 npm run lint
 ```
 
-or insde of the container
-
-```sh
-docker-compose run web npm run lint
-```
-
 ## Fixing problems
 
 Automatically fix linter's problems
 
 ```sh
 npm run lint:fix
-```
-
-or insde of the container
-
-```sh
-docker-compose run web npm run lint:fix
 ```
 
 ## Logging
@@ -112,7 +93,7 @@ Note: API request information (request url, response code, timestamp, etc.) are 
 
 ### Switching log-level on runtime
 
-If you use docker to run the app, please connect to `node-express-template_web*` container and simply execute `npm run loglevel:change` in new terminal. It will increase your current log level, in case you reach the highest level it will back to error level which is 0.
+Simply execute `npm run loglevel:change` in new terminal. It will increase your current log level, in case you reach the highest level it will back to error level which is 0.
 This feature may be useful on production env when you want to switch your app log level to debug without restarting node server.
 
 ## Troubleshooting
