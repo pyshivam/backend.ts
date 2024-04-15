@@ -24,27 +24,23 @@
       }
     },
     "/api/user": {
-      "post": {
-        "tags": ["create user"],
-        "description": "Create user",
+      "get": {
+        "tags": ["get user"],
+        "description": "Get user",
         "parameters": [
           {
-            "name": "x-api-key",
+            "name": "Authorization",
             "in": "header",
-            "default": "Provide API-key (ie. API_KEY_TOKEN from .env.locals file)",
+            "default": "JWT Token",
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "Input",
-            "in": "body",
-            "description": "Input data required to create new user",
-            "schema": {
-              "$ref": "#/definitions/UserInput"
-            }
           }
-        ],
+        ]
+      },
+      "post": {
+        "tags": ["create user"],
+        "description": "Create user",
         "produces": ["application/json"],
         "responses": {
           "200": {

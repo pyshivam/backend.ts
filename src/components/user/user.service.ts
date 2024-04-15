@@ -3,7 +3,7 @@ import AppError from '@core/utils/appError';
 import logger from '@core/utils/logger';
 import { UserModel } from '@components/user/user.model';
 import { IUser } from '@components/user/user.interface';
-import { createHash } from '@core/utils/hashing';
+import { createHash } from '@core/utils/authHelper';
 
 const create = async (user: IUser): Promise<boolean> => {
   try {

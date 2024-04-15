@@ -11,9 +11,13 @@ export function signAccessToken(user: IUserJWT) {
   return accessToken;
 }
 export function signRefreshToken(user: IUserJWT) {
-  const refreshToken = sign(user, conf.refreshTokenSecretKey, {
-    expiresIn: '7d',
-  });
+  const refreshToken = sign(
+    { ...user, refreshToken: true },
+    conf.refreshTokenSecretKey,
+    {
+      expiresIn: '7d',
+    },
+  );
   return refreshToken;
 }
 export function signConfirmCodeToken(user: IUserJWT, confirmCode: any) {

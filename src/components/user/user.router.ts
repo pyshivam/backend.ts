@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
-import protectedByApiKey from '@core/middlewares/apiKey.middleware';
 import validation from '@core/middlewares/validate.middleware';
+import checkAuth from '@core/middlewares/checkAuth.middleware';
 import {
   createUser,
   readUser,
@@ -13,13 +13,9 @@ import createUserValidation from './createUser.validation';
 const router: Router = Router();
 
 // e.g. createUser request's body is validated and protected by api-key
-router.post(
-  '/user/',
-  [protectedByApiKey, validation(createUserValidation)],
-  createUser,
-);
-router.get('/user/:id', readUser);
-router.put('/user/:id', [protectedByApiKey], updateUser);
-router.delete('/user/:id', [protectedByApiKey], deleteUser);
+router.post('/user/', [validation(createUserValidation)], createUser);
+router.get('/user/:id', [checkAuth], readUser);
+router.put('/user/:id', [checkAuth], updateUser);
+router.delete('/user/:id', [checkAuth], deleteUser);
 
 export default router;
