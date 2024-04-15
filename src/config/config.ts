@@ -18,11 +18,14 @@ const envsSchema = Joi.object()
       .valid('production', 'integration', 'development')
       .required(),
     PORT: Joi.number().default(8080),
+    HOST_URL: Joi.string().default(`http://localhost:8080`), // TODO: change to your host url
     API_KEY_TOKEN: Joi.string().required(),
     MONGODB_URL: Joi.string().required(),
     MONGODB_DB_NAME: Joi.string().required(),
     JWT_SECRET_KEY: Joi.string().required(),
     REFRESH_TOKEN_SECRET_KEY: Joi.string().required(),
+    GMAIL_APP_PASSWORD: Joi.string().required(),
+    GMAIL: Joi.string().email().required(),
   })
   .unknown(true);
 
@@ -42,6 +45,7 @@ const packageData = readPackage(process.cwd(), true);
 export default {
   env: envVars.NODE_ENV,
   port: envVars.PORT,
+  hostUrl: envVars.HOST_URL,
   xApiKey: envVars.API_KEY_TOKEN,
   ptojectName: packageData.name,
   projectVersion: packageData.version,
@@ -49,4 +53,6 @@ export default {
   mongoDbName: envVars.MONGODB_DB_NAME,
   jwtSecretKey: envVars.JWT_SECRET_KEY,
   refreshTokenSecretKey: envVars.REFRESH_TOKEN_SECRET_KEY,
+  gmailAppPassword: envVars.GMAIL_APP_PASSWORD,
+  gmail: envVars.GMAIL,
 };

@@ -6,9 +6,14 @@ export interface IUser {
   country: string;
   phone: string;
   username: string;
+  isVerified: boolean;
 }
 
 export interface IUserJWT {
   id: string;
   username: string;
+}
+
+export interface IUserVerify extends IUserJWT {
+  code: string;
 }

@@ -4,10 +4,12 @@ import logger from '@core/utils/logger';
 import { UserModel } from '@components/user/user.model';
 import { comparePassword } from '@core/utils/authHelper';
 import { signAccessToken, signRefreshToken } from '@core/utils/jwtTokenHelper';
-import { IUserJWT } from '@components/user/user.interface';
+import { IUserJWT, IUserVerify } from '@components/user/user.interface';
+import config from '@config/config';
+import { verify } from 'jsonwebtoken';
 import { ILoginBody } from './auth.interface';
 
-const login = async (body: ILoginBody) => {
+export const loginUser = async (body: ILoginBody) => {
   try {
     const user = await UserModel.findOne({ email: body.email });
     if (user) {
@@ -32,4 +34,37 @@ const login = async (body: ILoginBody) => {
   }
 };
 
-export default login;
+export const verifyEmail = async (token: string) => {
+  try {
+    if (!token) {
+      throw new AppError(httpStatus.BAD_REQUEST, 'Invalid token');
+    }
+
+    let user: IUserVerify;
+
+    try {
+      user = verify(token, config.jwtSecretKey) as IUserVerify;
+    } catch (error) {
+      throw new AppError(httpStatus.BAD_REQUEST, 'Invalid token');
+    }
+
+    const u = await UserModel.findOne({ _id: user.id });
+    if (!u) {
+      throw new AppError(httpStatus.BAD_REQUEST, 'User not found');
+    }
+
+    if (u.isVerified) {
+      throw new AppError(httpStatus.BAD_REQUEST, 'User already verified');
+    }
+
+    u.isVerified = true;
+    await u.save();
+    return { message: 'User verified!' };
+  } catch (error) {
+    logger.error(`User verification error: %O`, error.message);
+    if (error instanceof AppError) {
+      throw error;
+    }
+    throw new AppError(httpStatus.BAD_REQUEST, 'Something went wrong');
+  }
+};
