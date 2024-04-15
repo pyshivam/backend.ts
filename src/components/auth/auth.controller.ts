@@ -15,9 +15,10 @@ const login = async (req: Request, res: Response) => {
     if (error instanceof AppError) {
       res.status(error.httpCode);
       res.send({ message: error.message });
+    } else {
+      res.status(httpStatus.BAD_REQUEST);
+      res.send({ message: 'Something went wrong. please try again!' });
     }
-    res.status(httpStatus.BAD_REQUEST);
-    res.send({ message: 'Something went wrong. please try again!' });
   }
 };
 

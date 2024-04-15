@@ -1,4 +1,4 @@
-# Node Express backedn
+# Node Express backend
 
 Inside of this repoistory you will find fully configured and ready to use **express** based web application for **Node.js** runtime. It’s built on **TypeScript** and follows the best **top-ranked** content on Node.js best practices from https://github.com/goldbergyoni/nodebestpractices repository.
 

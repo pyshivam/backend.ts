@@ -42,6 +42,16 @@
         "tags": ["create user"],
         "description": "Create user",
         "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Input",
+            "in": "body",
+            "description": "Input data required to create new user",
+            "schema": {
+              "$ref": "#/definitions/UserInput"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "User has been created",
@@ -61,16 +71,59 @@
             "description": "Internal Server Error",
             "message": {}
           }
-        },
-        "security": [
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "tags": ["login user"],
+        "description": "Login user",
+        "produces": ["application/json"],
+        "parameters": [
           {
-            "api_key": "$X_API_KEY"
+            "name": "body",
+            "in": "body",
+            "description": "email and password required to login user",
+            "schema": {
+              "$ref": "#/definitions/UserLogin"
+            }
           }
-        ]
+        ],
+        "responses": {
+          "200": {
+            "description": "User has been loggedin!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/ResponseWithMessage"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access forbidde.",
+            "error": {}
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "message": {}
+          }
+        }
       }
     }
   },
   "definitions": {
+    "UserLogin": {
+      "required": ["email", "password"],
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
     "UserInput": {
       "required": [
         "name",
@@ -111,11 +164,36 @@
         "message": {
           "type": "string"
         },
-        "accessToken": {
-          "type": "string"
+        "user": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "country": {
+              "type": "string"
+            },
+            "phone": {
+              "type": "string"
+            },
+            "username": {
+              "type": "string"
+            }
+          }
         },
-        "refreshToken": {
-          "type": "string"
+        "tokens": {
+          "type": "object",
+          "properties": {
+            "accessToken": {
+              "type": "string"
+            },
+            "refreshToken": {
+              "type": "string"
+            }
+          }
         }
       }
     }

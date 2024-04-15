@@ -8,14 +8,12 @@ import { ILoginBody } from './auth.interface';
 
 const login = async (body: ILoginBody) => {
   try {
-    const user = await UserModel.findOne({ email: body.email }).select(
-      '+password',
-    );
+    const user = await UserModel.findOne({ email: body.email });
     if (user) {
       const isMatch = await comparePassword(body.password, user.password);
       if (isMatch) {
-        const accessToken = signAccessToken(user);
-        const refreshToken = signRefreshToken(user);
+        const accessToken = signAccessToken({ ...user });
+        const refreshToken = signRefreshToken({ ...user });
         user.password = undefined;
         return { tokens: { accessToken, refreshToken }, user };
       }
